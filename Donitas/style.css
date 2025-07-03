@@ -1,0 +1,198 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: #f3e8ff url('img/fondo_donitass.jpg') repeat;
+  background-size: 300px;
+  animation: fondoMover 60s linear infinite;
+  color: #4b0082; /* morado oscuro */
+  padding: 2rem;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+@keyframes fondoMover {
+  0% { background-position: 0 0; }
+  100% { background-position: 1000px 1000px; }
+}
+
+header {
+  background: linear-gradient(45deg, #7b3fbf, #9c63ff);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  color: white;
+  box-shadow: 0 4px 10px rgba(75, 0, 130, 0.3);
+  animation: aparecer 1s ease-out;
+}
+
+header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5rem;
+}
+
+.descripcion {
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  color: #eee;
+  line-height: 1.6;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.selector {
+  position: relative; /* para estar encima de globos */
+  background: #ffffffc7;
+  padding: 2rem;
+  border-radius: 20px;
+  margin: auto;
+  max-width: 450px;
+  box-shadow: 0 8px 16px rgba(75, 0, 130, 0.15);
+  backdrop-filter: blur(6px);
+  animation: aparecer 1.5s ease-out;
+  z-index: 10; /* sobre globitos */
+}
+
+h2, p {
+  margin-bottom: 1rem;
+}
+
+input {
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 350px;
+  border: 1.5px solid #7b3fbf;
+  transition: all 0.3s ease;
+  color: #4b0082;
+  font-weight: 600;
+}
+
+input::placeholder {
+  color: #a18de3;
+}
+
+input:focus {
+  border-color: #9c63ff;
+  box-shadow: 0 0 6px rgba(156, 99, 255, 0.5);
+  outline: none;
+}
+
+.opciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.opcion {
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  padding: 0.7rem;
+  width: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(75, 0, 130, 0.1);
+  color: #4b0082;
+  font-weight: 600;
+}
+
+.opcion img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 0.3rem;
+}
+
+.opcion:hover {
+  transform: scale(1.05);
+  border-color: #7b3fbf;
+}
+
+.opcion.selected {
+  border-color: #7b3fbf;
+  background-color: #7b3fbf;
+  color: white;
+  box-shadow: 0 4px 10px rgba(123, 63, 191, 0.6);
+}
+
+/* Botón */
+.boton {
+  background: #7b3fbf;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 1rem;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.boton:hover {
+  background-color: #9c63ff;
+  transform: scale(1.05);
+}
+
+.oculto {
+  display: none;
+}
+
+/* Globitos flotando fuera del cuadro */
+.globos-container {
+  position: fixed;
+  bottom: -50px;
+  left: 0;
+  width: 100%;
+  pointer-events: auto; /* para que detecte clics */
+  z-index: 1; /* debajo del cuadro selector */
+}
+
+.globo {
+  position: absolute;
+  width: 30px;
+  height: 40px;
+  background: radial-gradient(circle at 30% 30%, #b19cd9, #7b3fbf);
+  border-radius: 50% 50% 45% 45%;
+  animation: subir 10s infinite ease-in;
+  opacity: 0.6;
+  cursor: pointer;
+  user-select: none;
+}
+
+.globo:nth-child(1) { left: 10%; animation-delay: 0s; }
+.globo:nth-child(2) { left: 30%; animation-delay: 2s; }
+.globo:nth-child(3) { left: 50%; animation-delay: 4s; }
+.globo:nth-child(4) { left: 70%; animation-delay: 6s; }
+.globo:nth-child(5) { left: 90%; animation-delay: 8s; }
+
+@keyframes subir {
+  0% { transform: translateY(0); opacity: 0.6; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Animación clic globos */
+@keyframes rebotar {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.globo.clicked {
+  animation: rebotar 0.5s ease;
+  background: radial-gradient(circle at 30% 30%, #ff6f91, #7b3fbf);
+}

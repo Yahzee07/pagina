@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donitas Yahzee 🍩</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <h1>🍩 Donitas 🍩</h1>
+    <p class="descripcion">
+      8 donitas por platito decoradas a tu gusto ✨<br />
+      ¡Solo $25 el platito! Elige tu base y los toppings que quieras.
+    </p>
+  </header>
+
+  <section class="selector">
+    <h2>🧑 Tu nombre</h2>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre" />
+
+    <h2>📍 Dirección</h2>
+    <input type="text" id="direccion" placeholder="Escribe tu dirección" />
+
+    <h2>📝 ¿Algo especial que quieras decirme?</h2>
+    <input type="text" id="mensaje" placeholder="Ej: Un lado de galleta y otro lado de coco." />
+
+    <h2>1️⃣ Elige la base (puedes seleccionar máximo 2)</h2>
+    <div class="opciones" id="bases">
+      <div class="opcion" data-valor="lechera">
+        <img src="img/lechera.png" alt="Lechera" />
+        <p>Lechera</p>
+      </div>
+      <div class="opcion" data-valor="miel">
+        <img src="img/miel.png" alt="Miel" />
+        <p>Miel</p>
+      </div>
+      <div class="opcion" data-valor="chantilly">
+        <img src="img/chantilly.png" alt="Chantilly" />
+        <p>Chantilly</p>
+      </div>
+    </div>
+
+    <h2>2️⃣ Elige tus toppings (puedes seleccionar varios)</h2>
+    <div class="opciones" id="toppings">
+      <div class="opcion" data-valor="oreo triturada">
+        <img src="img/oreo.png" alt="Oreo" />
+        <p>Oreo</p>
+      </div>
+      <div class="opcion" data-valor="triki triturada">
+        <img src="img/triki.png" alt="Triki" />
+        <p>Triki</p>
+      </div>
+      <div class="opcion" data-valor="coco rayado">
+        <img src="img/coco.png" alt="Coco" />
+        <p>Coco</p>
+      </div>
+      <div class="opcion" data-valor="chochitos oscuros">
+        <img src="img/chochitos.jpg" alt="Chochitos" />
+        <p>Chochitos</p>
+      </div>
+    </div>
+
+    <a id="btnPedido" href="#" target="_blank" class="boton oculto">¡Pedir por WhatsApp!</a>
+  </section>
+
+  <!-- Globitos flotando -->
+  <div class="globos-container">
+    <div class="globo"></div>
+    <div class="globo"></div>
+    <div class="globo"></div>
+    <div class="globo"></div>
+    <div class="globo"></div>
+  </div>
+
+  <script>
+    const nombre = document.getElementById('nombre');
+    const direccion = document.getElementById('direccion');
+    const mensajeEspecial = document.getElementById('mensaje');
+    const btn = document.getElementById('btnPedido');
+    const numero = "7222952018"; // ← coloca tu número aquí
+
+    let baseSeleccionada = [];
+let toppingsSeleccionados = [];
+
+function actualizarPedido() {
+  const n = nombre.value.trim();
+  const d = direccion.value.trim();
+  const m = mensajeEspecial.value.trim();
+
+  if (baseSeleccionada.length > 0 && toppingsSeleccionados.length > 0 && n && d) {
+    const textoMensaje = `Hola! Soy ${n}. Quiero un platito de 8 donitas con base de ${baseSeleccionada.join(", ")} y toppings: ${toppingsSeleccionados.join(", ")} 😍🍩\nDirección de entrega: ${d}\nTotal: $25 MXN\n\nNota especial: ${m || "Ninguna"}`;
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(textoMensaje)}`;
+    btn.href = url;
+    btn.classList.remove('oculto');
+  } else {
+    btn.classList.add('oculto');
+  }
+}
+
+// Bases: máximo 2
+document.querySelectorAll('#bases .opcion').forEach(op => {
+  op.addEventListener('click', () => {
+    const valor = op.getAttribute('data-valor');
+    if (op.classList.contains('selected')) {
+      op.classList.remove('selected');
+      baseSeleccionada = baseSeleccionada.filter(b => b !== valor);
+    } else {
+      if (baseSeleccionada.length < 2) {
+        op.classList.add('selected');
+        baseSeleccionada.push(valor);
+      } else {
+        alert("Solo puedes seleccionar máximo 2 bases.");
+      }
+    }
+    actualizarPedido();
+  });
+});
+
+// Toppings: ilimitado
+document.querySelectorAll('#toppings .opcion').forEach(op => {
+  op.addEventListener('click', () => {
+    const valor = op.getAttribute('data-valor');
+    if (op.classList.contains('selected')) {
+      op.classList.remove('selected');
+      toppingsSeleccionados = toppingsSeleccionados.filter(t => t !== valor);
+    } else {
+      op.classList.add('selected');
+      toppingsSeleccionados.push(valor);
+    }
+    actualizarPedido();
+  });
+});
+
+    nombre.addEventListener('input', actualizarPedido);
+    direccion.addEventListener('input', actualizarPedido);
+    mensajeEspecial.addEventListener('input', actualizarPedido);
+
+    // Animación clic globos
+    document.querySelectorAll('.globo').forEach(globo => {
+      globo.addEventListener('click', () => {
+        if (globo.classList.contains('clicked')) return;
+        globo.classList.add('clicked');
+        globo.addEventListener('animationend', () => {
+          globo.classList.remove('clicked');
+        }, { once: true });
+      });
+    });
+  </script>
+</body>
+</html>
